@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "error.message",
+      "type": "java.lang.String",
+      "description": "Description for error.message."
+    }
+  ] }

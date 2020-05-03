@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html>
+<head>
+    <title>Index</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<h2>ROOMS</h2>
+
+<table id="roomsList">
+</table>
+
+</br>
+<form action="#">
+    <input id="name" placeholder="Room name">
+    <select id="country" placeholder="Room country">
+        <option>Belarus</option>
+        <option>Russia</option>
+        <option>Ukraine</option>
+        <option>USA</option>
+        <option>England</option>
+        <option>Israel</option>
+        <option>France</option>
+        <option>Germany</option>
+        <option>China</option>
+        <option>Japan</option>
+        <option>India</option>
+    </select>
+    <button onclick="createRoom()">Create room</button>
+</form>
+<!--<h2 th:utext="${errorMessage}">-->
+<!--</h2>-->
+</br>
+<input id="search_field1">
+<button onclick="searchByName()">Search room by Name</button>
+</br></br>
+<select id="search_field2">
+    <option>Belarus</option>
+    <option>Russia</option>
+    <option>Ukraine</option>
+    <option>USA</option>
+    <option>England</option>
+    <option>Israel</option>
+    <option>France</option>
+    <option>Germany</option>
+    <option>China</option>
+    <option>Japan</option>
+    <option>India</option>
+</select>
+<button onclick="searchByCountry()">Search rooms by Country</button>
+</br></br>
+<button onclick="loadRooms()">Show rooms</button>
+
+<script>
+    function searchByName() {
+        var name = document.getElementById("search_field1").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var room = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Room name</th>\n' +
+                    '        <th>Room country</th>\n' +
+                    '        <th>Enter</th>\n' +
+                    '    </tr>';
+                html = html + '<td>' + room.name + '</td>\n' +
+                    '        <td>' + room.country + '</td>\n' +
+                    '        <td><a href="/roomy/' + room.id + '">Enter</a></td></tr>';
+                document.getElementById("roomsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/room/findByName?name=" + name, true);
+        xhttp.send();
+    }
+
+    function searchByCountry() {
+        var country = document.getElementById("search_field2").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var rooms = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Room name</th>\n' +
+                    '        <th>Room country</th>\n' +
+                    '        <th>Enter</th>\n' +
+                    '    </tr>';
+                for (var i = 0; i < rooms.length; i++) {
+                    var room = rooms[i];
+                    console.log(room);
+                    html = html + '<td>' + room.name + '</td>\n' +
+                        '        <td>' + room.country + '</td>\n' +
+                        '        <td><a href="/roomy/' + room.id + '">Enter</a></td></tr>';
+                }
+                document.getElementById("roomsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/room/findByCountry?country=" + country, true);
+        xhttp.send();
+    }
+
+    function deleteRoom(roomId) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", "http://localhost:8080/room/delete/" + roomId, true);
+        xhttp.send();
+        loadRooms();
+    }
+
+    function createRoom() {
+        var roomName = document.getElementById("name").value;
+        var roomCountry = document.getElementById("country").value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "http://localhost:8080/room/save", true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({name: roomName, country: roomCountry}));
+        loadRooms();
+    }
+
+    function loadRooms() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var rooms = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Room name</th>\n' +
+                    '        <th>Room country</th>\n' +
+                    '        <th>Enter</th>\n' +
+                    '    </tr>';
+                for (var i = 0; i < rooms.length; i++) {
+                    var room = rooms[i];
+                    console.log(room);
+                    html = html + '<td>' + room.name + '</td>\n' +
+                        '        <td>' + room.country + '</td>\n' +
+                        '        <td><a href="/roomy/' + room.id + '">Enter</a></td></tr>';
+                }
+                document.getElementById("roomsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/room/findAll", true);
+        xhttp.send();
+    }
+</script>
+</body>
+</html>
