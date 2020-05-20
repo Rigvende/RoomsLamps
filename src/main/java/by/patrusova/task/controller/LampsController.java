@@ -1,7 +1,6 @@
 package by.patrusova.task.controller;
 
 import by.patrusova.task.entity.Lamp;
-import by.patrusova.task.entity.Room;
 import by.patrusova.task.exception.ValidationException;
 import by.patrusova.task.service.LampService;
 import org.apache.logging.log4j.Level;

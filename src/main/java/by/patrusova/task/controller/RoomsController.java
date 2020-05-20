@@ -16,8 +16,6 @@ public class RoomsController {
 
     private final static Logger LOGGER = LogManager.getLogger();
     private final RoomService roomService;
-//    @Value("${errorMessage}")
-//    private String errorMessage;
 
     public RoomsController(RoomService roomService) {
         this.roomService = roomService;
@@ -26,10 +24,6 @@ public class RoomsController {
     @PostMapping("/save")
     public Room saveRoom(@RequestBody Room room) throws ValidationException {
         LOGGER.log(Level.INFO, "Attempt to add room: " + room);
-//        String name = room.getName();
-//        if (name == null || name.equals("") || name.length() > 45) {
-//            request.getSession().setAttribute("errorMessage", errorMessage);
-//        }
         return roomService.saveRoom(room);
     }
 

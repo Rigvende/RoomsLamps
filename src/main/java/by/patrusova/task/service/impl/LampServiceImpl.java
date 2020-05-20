@@ -1,16 +1,13 @@
 package by.patrusova.task.service.impl;
 
 import by.patrusova.task.entity.Lamp;
-import by.patrusova.task.entity.Room;
 import by.patrusova.task.exception.ValidationException;
 import by.patrusova.task.repository.LampsRepository;
-import by.patrusova.task.repository.RoomsRepository;
 import by.patrusova.task.service.LampService;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static java.util.Objects.isNull;
 
 @Service
