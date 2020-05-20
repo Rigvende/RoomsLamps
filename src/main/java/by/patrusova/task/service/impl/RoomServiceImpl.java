@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static java.util.Objects.isNull;
 
 @Service
@@ -36,12 +35,8 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room saveRoom(Room room) throws ValidationException {
         validateRoom(room);
-        Optional<Room> optional = roomsRepository.findById(room.getId());
-        if (optional.isPresent()) {
-            Room room1 = optional.get();
-            room1.setName(room.getName());
-            room1.setCountry(room.getCountry());
-            room1.setLamp(room.getLamp());
+        Room room1 = findByName(room.getName());
+        if (room1 != null) {
             return room1;
         }
         Lamp lamp = new Lamp("off");
