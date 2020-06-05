@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface RoomService {
 
     Room saveRoom(Room room) throws ValidationException;
+    Room updateRoom(Room room);
     void deleteRoom(Integer roomId);
     List<Room> findByCountry(String country);
     Room findByName(String name);

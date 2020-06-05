@@ -1,8 +1,6 @@
 package by.patrusova.task.controller;
 
-import by.patrusova.task.entity.Lamp;
 import by.patrusova.task.entity.Room;
-import by.patrusova.task.service.LampService;
 import by.patrusova.task.service.RoomService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +13,9 @@ import java.util.Optional;
 public class PagesController {
 
     private final RoomService roomService;
-    private final LampService lampService;
 
-    public PagesController(RoomService roomService, LampService lampService) {
+    public PagesController(RoomService roomService) {
         this.roomService = roomService;
-        this.lampService = lampService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -30,14 +26,13 @@ public class PagesController {
     @RequestMapping(value = "/roomy/{roomId}", method = RequestMethod.GET)
     public String enterRoom(@PathVariable Integer roomId, Model model) {
         Optional<Room> optional = roomService.findRoomById(roomId);
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
             model.addAttribute("room", optional.get());
-            Optional<Lamp> optional2 = lampService.findLampById(optional.get().getLamp().getId());
-            optional2.ifPresent(lamp -> model.addAttribute("lamp", lamp));
+            model.addAttribute("lamp", optional.get().getLamp());
             return "roomy";
-        }
-        else {
+        } else {
             return "index";
         }
     }
+
 }

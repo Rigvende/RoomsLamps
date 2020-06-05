@@ -27,6 +27,12 @@ public class LampsController {
         return lampService.saveLamp(lamp);
     }
 
+    @PutMapping("/update")
+    public Lamp updateLamp(@RequestBody Lamp lamp) throws ValidationException {
+        LOGGER.log(Level.INFO, "Attempt to update lamp: " + lamp);
+        return lampService.updateLamp(lamp);
+    }
+
     @GetMapping("/findAll")
     public List<Lamp> findAllLamps() {
         LOGGER.log(Level.INFO,"Finding all lamps...");
@@ -37,6 +43,17 @@ public class LampsController {
     public Lamp findByLampCondition(@RequestParam String lampCondition) {
         LOGGER.log(Level.INFO,"Finding lamp by condition: " + lampCondition);
         return lampService.findByLampCondition(lampCondition);
+    }
+
+    @GetMapping("/findById")
+    public Lamp findById(@RequestParam String id) {
+        LOGGER.log(Level.INFO,"Finding lamp by id: " + id);
+        int idLamp = Integer.parseInt(id);
+        if (lampService.findLampById(idLamp).isPresent()) {
+            return lampService.findLampById(idLamp).get();
+        }
+        LOGGER.log(Level.WARN, "Lamp by id: " + id + " doesn't exist");
+        return null;
     }
 
     @DeleteMapping("/delete/{id}")

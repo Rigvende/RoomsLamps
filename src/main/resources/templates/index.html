@@ -44,8 +44,7 @@
     </select>
     <button onclick="createRoom()">Create room</button>
 </form>
-<!--<h2 th:utext="${errorMessage}">-->
-<!--</h2>-->
+
 </br>
 <input id="search_field1">
 <button onclick="searchByName()">Search room by Name</button>
@@ -118,7 +117,6 @@
         var xhttp = new XMLHttpRequest();
         xhttp.open("DELETE", "http://localhost:8080/room/delete/" + roomId, true);
         xhttp.send();
-        loadRooms();
     }
 
     function createRoom() {
@@ -127,8 +125,7 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", "http://localhost:8080/room/save", true);
         xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.send(JSON.stringify({name: roomName, country: roomCountry}));
-        loadRooms();
+        xmlhttp.send(JSON.stringify({name: roomName, country: roomCountry, lamp: {lampCondition: "off"}}));
     }
 
     function loadRooms() {
@@ -154,6 +151,7 @@
         xhttp.open("GET", "http://localhost:8080/room/findAll", true);
         xhttp.send();
     }
+
 </script>
 </body>
 </html>

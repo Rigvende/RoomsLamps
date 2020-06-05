@@ -32,12 +32,17 @@ public class LampServiceImpl implements LampService {
     public Lamp saveLamp(Lamp lamp) throws ValidationException {
         validateLamp(lamp);
         Optional<Lamp> optional = lampsRepository.findById(lamp.getId());
+        return optional.orElseGet(() -> lampsRepository.save(lamp));
+    }
+    @Override
+    public Lamp updateLamp(Lamp lamp) {
+        Optional<Lamp> optional = lampsRepository.findById(lamp.getId());
         if (optional.isPresent()) {
-            Lamp lamp1 = optional.get();
-            lamp1.setLampCondition(lamp.getLampCondition());
-            return lampsRepository.save(lamp1);
+            Lamp foundLamp = optional.get();
+            foundLamp.setLampCondition(lamp.getLampCondition());
+            return lampsRepository.saveAndFlush(foundLamp);
         }
-        return lampsRepository.save(lamp);
+        return null;
     }
     @Override
     public void deleteLamp(Integer lampId) {

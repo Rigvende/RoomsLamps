@@ -5,56 +5,55 @@
     <title>Room</title>
 </head>
 
-<h2>Room # </h2>
+<h2>You are in room: </h2>
     <h2 th:utext="${room.getName()}"></h2>
-<h3>Lamp is: </h3>
-    <h3 th:utext="${lamp.getLampCondition()}"></h3>
-
-<table id="lampsList">
-</table>
 
 <form action="#">
-    <button onclick="turnTheLampOffOn()">Turn the lamp</button>
+    <button id="button" onclick="turnTheLampOffOn()">Turn the lamp</button>
+    <input type="hidden" id="roomId" th:value="${room.getId()}">
+    <input type="hidden" id="idLamp" th:value="${lamp.getId()}">
     <select id="cond">
         <option>ON</option>
         <option>OFF</option>
     </select>
 </form>
 
-<form action="#" th:object="${lamp}">
-    <button onclick="showLamp()">Show the lamp</button>
-    <input type="hidden" id="idLamp" th:value="${lamp.getId()}">
-</form>
+<table id="lampo">
+</table>
 
 <script>
 function turnTheLampOffOn() {
-    var lampCond = document.getElementById("cond").value;//fixme
+    var roomId = document.getElementById("roomId").value;
+    var lampId = document.getElementById("idLamp").value;
+    var lampCond = document.getElementById("cond").value;
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "http://localhost:8080/lamp/save", true);
+    xmlhttp.open("PUT", "http://localhost:8080/room/update", true);
     xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(JSON.stringify({lampCondition: lampCond}));
+    xmlhttp.send(JSON.stringify({id: roomId, lamp: {id: lampId, lampCondition: lampCond}}));
 }
 
-function showLamp() {
-    var xhttp = new XMLHttpRequest();
+document.addEventListener("DOMContentLoaded",function() {
     var idLamp = document.getElementById("idLamp").value;
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var lamp = JSON.parse(this.responseText);
-            var html = '<tr>\n' +
-                '        <th>Lamp id</th>\n' +
-                '        <th>Lamp condition</th>\n' +
-                '    </tr>';
-            html = html + '        <td>' + lamp.id + '</td>' +
-                '        <td>' + lamp.lampCondition + '</td></tr>';
-            document.getElementById("lampsList").innerHTML = html;
-        }
-    }
-    xhttp.open("GET", "http://localhost:8080/lamp/findById?id=" + idLamp, true);
-    xhttp.send();
-}
-
+    var myButton = document.getElementById("button");
+    myButton.addEventListener("click", function(){
+        var request = new XMLHttpRequest();
+        request.open('GET',"http://localhost:8080/lamp/findById?id=" + idLamp, true);
+        request.addEventListener('readystatechange', function() {
+            if ((request.readyState==4) && (request.status==200)) {
+                var lamp = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>Lamp condition</th>\n' +
+                    '    </tr>';
+                html = html + '<td>' + lamp.lampCondition + '</td></tr>';
+                document.getElementById("lampo").innerHTML = html;
+            }
+        });
+        request.send();
+    });
+});
 </script>
 
+</br>
+<a href="/">Back to Rooms</a>
 </body>
 </html>

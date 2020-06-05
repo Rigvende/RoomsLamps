@@ -27,6 +27,12 @@ public class RoomsController {
         return roomService.saveRoom(room);
     }
 
+    @PutMapping("/update")
+    public Room updateRoom(@RequestBody Room room) throws ValidationException {
+        LOGGER.log(Level.INFO, "Attempt to update room: " + room);
+        return roomService.updateRoom(room);
+    }
+
     @GetMapping("/findAll")
     public List<Room> findAllRooms() {
         LOGGER.log(Level.INFO, "Finding all rooms...");
@@ -43,6 +49,17 @@ public class RoomsController {
     public Room findByName(@RequestParam String name) {
         LOGGER.log(Level.INFO, "Finding room by name: " + name);
         return roomService.findByName(name);
+    }
+
+    @GetMapping("/findById")
+    public Room findById(@RequestParam String id) {
+        LOGGER.log(Level.INFO, "Finding room by id: " + id);
+        int idRoom = Integer.parseInt(id);
+        if (roomService.findRoomById(idRoom).isPresent()) {
+            return roomService.findRoomById(idRoom).get();
+        }
+        LOGGER.log(Level.WARN, "Room by id: " + id + " doesn't exist");
+        return null;
     }
 
     @DeleteMapping("/delete/{id}")

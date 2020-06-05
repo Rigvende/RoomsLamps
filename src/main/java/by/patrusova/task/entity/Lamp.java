@@ -25,9 +25,6 @@ public class Lamp implements Cloneable, Serializable {
     private Room room;
 
     public Lamp() {}
-    public Lamp(String lampCondition) {
-        this.lampCondition = lampCondition;
-    }
 
     public Room getRoom() {
         return room;

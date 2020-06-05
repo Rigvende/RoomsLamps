@@ -27,11 +27,6 @@ public class Room implements Serializable, Cloneable {
     public Room() {
     }
 
-    public Room(String name, String country) {
-        this.name = name;
-        this.country = country;
-    }
-
     public Integer getId() {
         return id;
     }

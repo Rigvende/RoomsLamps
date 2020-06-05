@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface LampService {
 
     Lamp saveLamp(Lamp lamp) throws ValidationException;
+    Lamp updateLamp(Lamp lamp);
     void deleteLamp(Integer lampId);
     Lamp findByLampCondition(String condition);
     List<Lamp> findAll();

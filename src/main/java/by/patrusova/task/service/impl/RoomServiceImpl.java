@@ -39,10 +39,22 @@ public class RoomServiceImpl implements RoomService {
         if (room1 != null) {
             return room1;
         }
-        Lamp lamp = new Lamp("off");
+        Lamp lamp = room.getLamp();
         lamp.setRoom(room);
         room.setLamp(lamp);
         return roomsRepository.save(room);
+    }
+    @Override
+    public Room updateRoom(Room room) {
+        Optional<Room> optionalRoom = findRoomById(room.getId());
+        if (optionalRoom.isPresent()) {
+            Room foundRoom = optionalRoom.get();
+            Lamp lamp = room.getLamp();
+            lamp.setRoom(foundRoom);
+            foundRoom.setLamp(lamp);
+            return roomsRepository.saveAndFlush(foundRoom);
+        }
+        return null;
     }
     @Override
     public void deleteRoom(Integer roomId) {
