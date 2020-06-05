@@ -1,7 +1,7 @@
 # RoomsLamps
 Not completed. 
 ____
-java, mysql, spring, jpa(hibernate), maven, thymeleaf, html, ajax\
+java, mysql, spring, hibernate, maven, thymeleaf, html, ajax
 
 # ТЗ
 Приложение “Комнаты с лампочками”\
