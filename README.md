@@ -1,5 +1,5 @@
 # RoomsLamps
-Completed by 90% (I haven't written tests yet...) 
+Completed by 90% (it works but I haven't written tests yet...) 
 ____
 java, mysql, spring, hibernate, maven, thymeleaf, html, ajax
 
