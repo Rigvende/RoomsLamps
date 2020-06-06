@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
-import java.net.UnknownHostException;
 import java.util.Optional;
 
 @Controller
@@ -38,9 +37,6 @@ public class PagesController {
                 model.addAttribute("lamp", room.getLamp());
                 return "roomy";
             }
-//            model.addAttribute("room", room);
-//            model.addAttribute("lamp", room.getLamp());
-//            return "roomy";
         }
         return "index";
     }

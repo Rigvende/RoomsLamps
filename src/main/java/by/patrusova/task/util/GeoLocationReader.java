@@ -14,8 +14,8 @@ import java.net.InetAddress;
 public class GeoLocationReader {
 
     private final static Logger LOGGER = LogManager.getLogger();
-    private final static String PATH_TO_GEO_DB =
-            "C:\\Users\\Администратор.000\\IdeaProjects\\rooms\\src\\main\\resources\\static\\GeoLite2-Country.mmdb";
+    private final static String HEADER = "X-FORWARDED-FOR";
+    private final static String PATH_TO_GEO_DB = "src\\main\\resources\\static\\GeoLite2-Country.mmdb";
 
     public GeoLocationReader() {
     }
@@ -23,7 +23,7 @@ public class GeoLocationReader {
     public String getClientCountryByIp(HttpServletRequest request) {
         String clientIp = "";
         if (request != null) {
-            clientIp = request.getHeader("X-FORWARDED-FOR");
+            clientIp = request.getHeader(HEADER);
             if (clientIp == null || "".equals(clientIp)) {
                 clientIp = request.getRemoteAddr();
             }
@@ -41,6 +41,7 @@ public class GeoLocationReader {
             country = response.getCountry().getName();
         } catch (IOException | GeoIp2Exception e) {
             LOGGER.log(Level.ERROR, "Wrong access to Geo DB");
+            e.printStackTrace();
         }
         return country;
     }
